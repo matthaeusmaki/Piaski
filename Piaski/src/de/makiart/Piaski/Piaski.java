@@ -30,15 +30,12 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 	private long mCurrentTime;
 	private long mDeltaTime;
 	private long mOldTime;
-	private int mFrameCount = 0;
 	
-	
-	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {  	
         super.onCreate(savedInstanceState);
         
-        //    	Landscape Modus und FUllscreen einstellen
+        //    	Landscape Modus und Fullscreen einstellen
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);         
@@ -64,10 +61,9 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 
     	mCore.update(mDeltaTime);
 
-		mFrameCount++;
-    	if(mFrameCount > 100) {
+    	// for debuging, sends event if display is touched
+    	if(mIsTouched) {
     		((EventService) mCore.getService("EventService")).dispatchEvent(new SimpleEvent());
-    		mFrameCount = 0;
     	}
 	}
 	
@@ -110,7 +106,4 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 		}		
 		return true;
 	}
-	
-	
-	
 }
