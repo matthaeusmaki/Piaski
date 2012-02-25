@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import de.makiart.engine.EventService.EventType;
 
-public class SimpleEventListener implements EventListener{
+public class SimpleEventListener implements IEventListener{
 
 	private ArrayList<EventType> mHandableEvents	=	new ArrayList<EventType>();
 	private String NAME = "SimpleEventListener";
@@ -13,7 +13,7 @@ public class SimpleEventListener implements EventListener{
 		mHandableEvents.add( EventService.EventType.SimpleEvent1);
 	}
 	
-	public void onHandle(Event e) {
+	public void onHandle(IEvent e) {
 		if (e.getType() == EventType.SimpleEvent1) {
 			System.out.println(((SimpleEvent) e).foo());			
 		}		

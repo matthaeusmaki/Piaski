@@ -10,11 +10,11 @@ import android.util.Log;
  * @author uNreaL
  *
  */
-public class EventService extends Service {
+public class EventService extends AbstractService {
 	// private HashMap<String, EventListener> mListenerMap = new HashMap<String, EventListener>();
-	private ArrayList<EventListener> mListenerList = new ArrayList<EventListener>();
+	private ArrayList<IEventListener> mListenerList = new ArrayList<IEventListener>();
 	public enum EventType { SimpleEvent1, SimpleEvent2 };
-	private ArrayList<Event> mEventList	=	new ArrayList<Event>();
+	private ArrayList<IEvent> mEventList	=	new ArrayList<IEvent>();
 	
 
 	public EventService() {		
@@ -22,7 +22,7 @@ public class EventService extends Service {
 		Log.d("EventService", "EventService wurde aufgerufen");
 	}
 	
-	public void addListener( EventListener listener) {
+	public void addListener( IEventListener listener) {
 		Log.d("EventService", "Add EventListener: " + listener.getName() );
 		mListenerList.add( listener);
 	}
@@ -37,7 +37,7 @@ public class EventService extends Service {
 		throw new RuntimeException();
 	}
 	
-	public EventListener getListener( String name ) {
+	public IEventListener getListener( String name ) {
 		int index = findListener(name);
 		if ( index >= 0) {
 			return mListenerList.get(index);
@@ -46,7 +46,7 @@ public class EventService extends Service {
 		throw new RuntimeException();		
 	}
 	
-	public void dispatchEvent(Event e) {
+	public void dispatchEvent(IEvent e) {
 		Log.d("EventService.dispatch", "dispatch: " + e.getType() );
 		mEventList.add(e);
 	}
@@ -55,7 +55,7 @@ public class EventService extends Service {
 	public void update() {
 		for (int j = 0; j < mEventList.size(); j++)
 		{
-			Event e = mEventList.get(j);
+			IEvent e = mEventList.get(j);
 			for ( int i = 0; i < mListenerList.size(); i++)
 			{
 				if (mListenerList.get(i).getHandableEvents().contains(e.getType()) )

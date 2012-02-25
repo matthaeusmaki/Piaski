@@ -3,16 +3,16 @@ package de.makiart.engine;
 import java.util.HashMap;
 
 
-public class StateService extends Service{
+public class StateService extends AbstractService{
 
-	private HashMap<String, State> mStateMap = new HashMap<String, State>();
-	private State mCurrentState;
+	private HashMap<String, IState> mStateMap = new HashMap<String, IState>();
+	private IState mCurrentState;
 	
-	public State getCurrentState() {
+	public IState getCurrentState() {
 		return mCurrentState;
 	}
 
-	public void setCurrentState(State state) {
+	public void setCurrentState(IState state) {
 		mCurrentState = state;
 	}
 
@@ -20,7 +20,7 @@ public class StateService extends Service{
 		super(name);
 	}
 	
-	public void addState( String name, State state) {
+	public void addState( String name, IState state) {
 		mStateMap.put(name, state);
 	}
 	

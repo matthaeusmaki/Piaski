@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class ServiceLocator {
 
-	private HashMap<String, Service> mServiceMap = new HashMap<String, Service>();
+	private HashMap<String, AbstractService> mServiceMap = new HashMap<String, AbstractService>();
 		
 	public void update(long deltatime) {
 		for ( String key : mServiceMap.keySet()) {
@@ -14,12 +14,12 @@ public class ServiceLocator {
 		}
 	}
 	
-	public void addService( Service service) {
+	public void addService( AbstractService service) {
 		Log.d("ServiceLocator.addService", "Füge Service hinzu '" + service.getName()  + "'");
 		mServiceMap.put(service.getName(), service);
 	}
 	
-	public Service getService( String name ) {
+	public AbstractService getService( String name ) {
 		Log.d("ServiceLocator.getService", "Lese Service '" + name  + "'");
 		return mServiceMap.get(name);
 	}
