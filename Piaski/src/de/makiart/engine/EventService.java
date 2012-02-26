@@ -13,7 +13,7 @@ import android.util.Log;
 public class EventService extends AbstractService {
 
 	private ArrayList<IEventListener> mListenerList = new ArrayList<IEventListener>();
-	public enum EventType { SimpleEvent1, SimpleEvent2 };
+	public enum EventType { SimpleEvent1, SimpleEvent2, ChangeStateEvent };
 	private ArrayList<IEvent> mEventList	=	new ArrayList<IEvent>();
 	
 

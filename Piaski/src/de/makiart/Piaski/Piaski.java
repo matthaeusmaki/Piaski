@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
+import de.makiart.engine.ChangeStateEvent;
 import de.makiart.engine.EventService;
 import de.makiart.engine.ServiceLocator;
 import de.makiart.engine.SimpleEvent;
@@ -99,7 +100,10 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 			mIsTouched	=	false;
 			Log.d("Touch-EVENT Up", "X: " + mTouchX + " | Y: " + mTouchY);
 
-			((EventService) mCore.getService("EventService")).dispatchEvent(new SimpleEvent());
+			//((EventService) mCore.getService("EventService")).dispatchEvent(new SimpleEvent());
+			ChangeStateEvent	cse	=	new ChangeStateEvent();
+			cse.setTarget("MenuState");
+			((EventService) mCore.getService("EventService")).dispatchEvent(cse);
 			break;
 		}		
 		return true;

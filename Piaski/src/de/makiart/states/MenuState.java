@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.util.Log;
 import de.makiart.engine.EventService;
 import de.makiart.engine.EventService.EventType;
+import de.makiart.engine.ChangeStateEvent;
 import de.makiart.engine.IEvent;
 import de.makiart.engine.IEventListener;
 import de.makiart.engine.IState;
@@ -19,6 +20,8 @@ public class MenuState implements IState, IEventListener {
 	
 	public MenuState(ServiceLocator core) {
 		mHandableEvents.add(EventService.EventType.SimpleEvent1);
+		mHandableEvents.add(EventService.EventType.ChangeStateEvent);
+		
 		mCore = core;
 	}
 	
@@ -39,6 +42,12 @@ public class MenuState implements IState, IEventListener {
 	public void onHandle(IEvent e) {
 		if (e.getType() == EventType.SimpleEvent1) {
 			((StateService) mCore.getService("StateService")).changeState("GameState");		
+		}
+		
+		if (e.getType() == EventType.ChangeStateEvent) {
+			Log.d("MenuState.onHanlde", "Type: ChangeStateEvent");
+			ChangeStateEvent se = (ChangeStateEvent) e;
+			((StateService) mCore.getService("StateService")).changeState( se.getTarget() );		
 		}
 	}
 

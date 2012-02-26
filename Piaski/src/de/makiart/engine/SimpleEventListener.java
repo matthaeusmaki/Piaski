@@ -16,7 +16,9 @@ public class SimpleEventListener implements IEventListener{
 	public void onHandle(IEvent e) {
 		if (e.getType() == EventType.SimpleEvent1) {
 			System.out.println(((SimpleEvent) e).foo());			
-		}		
+		}	
+		
+		
 	}
 	
 	public ArrayList<EventType> getHandableEvents() {
