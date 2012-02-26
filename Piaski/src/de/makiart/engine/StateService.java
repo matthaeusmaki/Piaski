@@ -2,31 +2,42 @@ package de.makiart.engine;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 
 public class StateService extends AbstractService{
 
+	private static final String NAME = "StateService";
 	private HashMap<String, IState> mStateMap = new HashMap<String, IState>();
 	private IState mCurrentState;
 	
+	public StateService() {
+		super(NAME);
+	}
+	
+	public void changeState(String name) {
+		if(mCurrentState != null) {
+			Log.d("StateService.changeState", "change state " + mCurrentState.getName());
+			mCurrentState.onExit();
+		}
+		mCurrentState = mStateMap.get(name);
+		mCurrentState.onEnter();
+		Log.d("StateService.changeState", "onEnter current state " + name);
+	}
+	
 	public IState getCurrentState() {
 		return mCurrentState;
-	}
-
-	public void setCurrentState(IState state) {
-		mCurrentState = state;
 	}
 
 	public StateService(String name) {
 		super(name);
 	}
 	
-	public void addState( String name, IState state) {
-		mStateMap.put(name, state);
+	public void addState(IState state) {
+		mStateMap.put(state.getName(), state);
 	}
 	
 	public void removeState( String name) {
 		mStateMap.remove(name);
-	}
-	
-	
+	}	
 }

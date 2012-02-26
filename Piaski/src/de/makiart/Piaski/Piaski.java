@@ -17,6 +17,9 @@ import de.makiart.engine.EventService;
 import de.makiart.engine.ServiceLocator;
 import de.makiart.engine.SimpleEvent;
 import de.makiart.engine.SimpleEventListener;
+import de.makiart.engine.StateService;
+import de.makiart.states.GameState;
+import de.makiart.states.MenuState;
 
 public class Piaski extends Activity implements Renderer, OnTouchListener {
 
@@ -40,6 +43,7 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);         
         
+        // OpenGL SurfaceView initialisieren
         mSurfaceView	=	new	GLSurfaceView(this);
         mSurfaceView.setRenderer(this);
         setContentView(mSurfaceView);     
@@ -47,11 +51,8 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
         
         //	Initialisieren des cores
         mCore	=	new ServiceLocator();
-        mCore.addService(new EventService() );
-        SimpleEventListener sel = new SimpleEventListener();
-        ((EventService) mCore.getService("EventService")).addListener(sel);        
-        mCore.getService("EventService").start();
         
+        setup();
     }
 	
     public void onDrawFrame(GL10 arg0) {
@@ -61,10 +62,6 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 
     	mCore.update(mDeltaTime);
 
-    	// for debuging, sends event if display is touched
-    	if(mIsTouched) {
-    		((EventService) mCore.getService("EventService")).dispatchEvent(new SimpleEvent());
-    	}
 	}
 	
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -88,7 +85,6 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 		super.onResume();
 		mSurfaceView.onResume();
 	}
-
 	
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) {
@@ -102,8 +98,27 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 		case	MotionEvent.ACTION_UP:
 			mIsTouched	=	false;
 			Log.d("Touch-EVENT Up", "X: " + mTouchX + " | Y: " + mTouchY);
+
+			((EventService) mCore.getService("EventService")).dispatchEvent(new SimpleEvent());
 			break;
 		}		
 		return true;
+	}
+	
+	/**
+	 * Initialisieren von Services und States. Startet mit dem "MenusState" als Initial State.
+	 */
+	private void setup() {
+		mCore.addService(new EventService());
+		mCore.addService(new StateService());
+		
+		StateService stateService = (StateService) mCore.getService("StateService");
+		stateService.addState(new MenuState(mCore));
+		stateService.addState(new GameState(mCore));
+		stateService.changeState("MenuState");
+		
+//        SimpleEventListener sel = new SimpleEventListener();
+//        ((EventService) mCore.getService("EventService")).addListener(sel);        
+//        mCore.getService("EventService").start();
 	}
 }

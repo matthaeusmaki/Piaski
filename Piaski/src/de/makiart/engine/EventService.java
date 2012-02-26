@@ -11,7 +11,7 @@ import android.util.Log;
  *
  */
 public class EventService extends AbstractService {
-	// private HashMap<String, EventListener> mListenerMap = new HashMap<String, EventListener>();
+
 	private ArrayList<IEventListener> mListenerList = new ArrayList<IEventListener>();
 	public enum EventType { SimpleEvent1, SimpleEvent2 };
 	private ArrayList<IEvent> mEventList	=	new ArrayList<IEvent>();
