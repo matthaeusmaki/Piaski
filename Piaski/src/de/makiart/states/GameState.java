@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import android.util.Log;
 import de.makiart.engine.EventService;
+import de.makiart.engine.EventService.EventType;
 import de.makiart.engine.IEvent;
+import de.makiart.engine.IEventListener;
 import de.makiart.engine.IState;
 import de.makiart.engine.ServiceLocator;
 import de.makiart.engine.StateService;
-import de.makiart.engine.EventService.EventType;
 
-public class GameState implements IState {
+public class GameState implements IState, IEventListener {
 
 	private static final String NAME = "GameState";
 	private ServiceLocator mCore;
@@ -27,10 +28,12 @@ public class GameState implements IState {
 
 	public void onEnter() {
 		Log.d("GameState.onEnter", "Game state starts");
+		((EventService) mCore.getService("EventService")).addListener(this);
 	}
 
 	public void onExit() {
 		Log.d("GameState.onExit", "Game state ends");
+		((EventService) mCore.getService("EventService")).removeListener(NAME);
 	}
 
 	public void onHandle(IEvent e) {

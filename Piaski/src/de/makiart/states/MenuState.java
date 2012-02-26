@@ -28,10 +28,12 @@ public class MenuState implements IState, IEventListener {
 
 	public void onEnter() {
 		Log.d("MenuState.onEnter", "Menu state starts");
+		((EventService) mCore.getService("EventService")).addListener(this);
 	}
 
 	public void onExit() {
 		Log.d("MenuState.onExit", "Menu state ends");
+		((EventService) mCore.getService("EventService")).removeListener(NAME);
 	}
 
 	public void onHandle(IEvent e) {
