@@ -1,8 +1,8 @@
-package de.makiart.engine;
+package de.makiart.engine.events;
 
 import java.util.ArrayList;
 
-import de.makiart.engine.EventService.EventType;
+import de.makiart.engine.events.EventService.EventType;
 
 public interface IEventListener {
 

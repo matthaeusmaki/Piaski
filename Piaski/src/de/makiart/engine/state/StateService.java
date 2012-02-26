@@ -1,6 +1,8 @@
-package de.makiart.engine;
+package de.makiart.engine.state;
 
 import java.util.HashMap;
+
+import de.makiart.engine.AbstractService;
 
 import android.util.Log;
 

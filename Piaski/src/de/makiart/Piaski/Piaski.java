@@ -13,14 +13,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
-import de.makiart.engine.ChangeStateEvent;
-import de.makiart.engine.EventService;
+import de.makiart.Piaski.states.GameState;
+import de.makiart.Piaski.states.MenuState;
 import de.makiart.engine.ServiceLocator;
-import de.makiart.engine.SimpleEvent;
-import de.makiart.engine.SimpleEventListener;
-import de.makiart.engine.StateService;
-import de.makiart.states.GameState;
-import de.makiart.states.MenuState;
+import de.makiart.engine.events.ChangeStateEvent;
+import de.makiart.engine.events.EventService;
+import de.makiart.engine.events.SimpleEvent;
+import de.makiart.engine.events.SimpleEventListener;
+import de.makiart.engine.state.StateService;
 
 public class Piaski extends Activity implements Renderer, OnTouchListener {
 

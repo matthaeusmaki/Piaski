@@ -1,26 +1,27 @@
-package de.makiart.states;
+package de.makiart.Piaski.states;
 
 import java.util.ArrayList;
 
 import android.util.Log;
-import de.makiart.engine.ChangeStateEvent;
-import de.makiart.engine.EventService;
-import de.makiart.engine.EventService.EventType;
-import de.makiart.engine.IEvent;
-import de.makiart.engine.IEventListener;
-import de.makiart.engine.IState;
+import de.makiart.engine.events.ChangeStateEvent;
+import de.makiart.engine.events.EventService;
+import de.makiart.engine.events.IEvent;
+import de.makiart.engine.events.IEventListener;
+import de.makiart.engine.events.EventService.EventType;
+import de.makiart.engine.state.IState;
+import de.makiart.engine.state.StateService;
 import de.makiart.engine.ServiceLocator;
-import de.makiart.engine.StateService;
 
-public class GameState implements IState, IEventListener {
+public class MenuState implements IState, IEventListener {
 
-	private static final String NAME = "GameState";
-	private ServiceLocator mCore;
+	private static final String NAME = "MenuState";
 	private ArrayList<EventType> mHandableEvents	=	new ArrayList<EventType>();
-
-	public GameState(ServiceLocator core) {
+	private ServiceLocator mCore;
+	
+	public MenuState(ServiceLocator core) {
 		mHandableEvents.add(EventService.EventType.SimpleEvent1);
 		mHandableEvents.add(EventService.EventType.ChangeStateEvent);
+		
 		mCore = core;
 	}
 	
@@ -29,18 +30,18 @@ public class GameState implements IState, IEventListener {
 	}
 
 	public void onEnter() {
-		Log.d("GameState.onEnter", "Game state starts");
+		Log.d("MenuState.onEnter", "Menu state starts");
 		((EventService) mCore.getService("EventService")).addListener(this);
 	}
 
 	public void onExit() {
-		Log.d("GameState.onExit", "Game state ends");
+		Log.d("MenuState.onExit", "Menu state ends");
 		((EventService) mCore.getService("EventService")).removeListener(NAME);
 	}
 
 	public void onHandle(IEvent e) {
 		if (e.getType() == EventType.SimpleEvent1) {
-			((StateService) mCore.getService("StateService")).changeState("MenuState");		
+			((StateService) mCore.getService("StateService")).changeState("GameState");		
 		}
 		
 		if (e.getType() == EventType.ChangeStateEvent) {

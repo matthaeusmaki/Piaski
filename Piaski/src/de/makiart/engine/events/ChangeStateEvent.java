@@ -1,6 +1,6 @@
-package de.makiart.engine;
+package de.makiart.engine.events;
 
-import de.makiart.engine.EventService.EventType;
+import de.makiart.engine.events.EventService.EventType;
 
 public class ChangeStateEvent implements IEvent {
 	

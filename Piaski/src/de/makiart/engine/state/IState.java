@@ -1,4 +1,4 @@
-package de.makiart.engine;
+package de.makiart.engine.state;
 
 public interface IState {
 	
