@@ -7,13 +7,13 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public abstract class Shape {
+public abstract class Shape extends ViewComponent {
 	
 	//	Buffers
 	public 		FloatBuffer 	verticesBuffer;
 	public 		ShortBuffer 	indicesBuffer;
 	public	 	FloatBuffer 	colorBuffer;
-	public	 	float[]			rgba;	
+	public	 	float[]			rgba = new float[4];	
 	private 	int 			numOfIndices;
 	
 	//	Translate params
@@ -68,20 +68,22 @@ public abstract class Shape {
     }
     */
     
-    
-    public void draw(GL10 gl) {
-    	gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verticesBuffer);
-        //gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
-    	gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
-    	
-    
+   @Override
+   protected void draw(GL10 gl) {
+	   gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+	   gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verticesBuffer);
+    // gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+	   gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+	   gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+   	
+   
 
-        gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
-    	
-    	//Disable the client state before leaving
-    	gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+	   gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
+   	
+   	//	Disable the client state before leaving
+    // 	gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 
-    }
+   }
 
     public void setPosition( int X, int Y) {
     	x = X;

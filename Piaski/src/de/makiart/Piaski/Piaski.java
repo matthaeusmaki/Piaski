@@ -8,6 +8,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -18,14 +19,17 @@ import de.makiart.Piaski.states.MenuState;
 import de.makiart.engine.ServiceLocator;
 import de.makiart.engine.events.ChangeStateEvent;
 import de.makiart.engine.events.EventService;
-import de.makiart.engine.events.SimpleEvent;
-import de.makiart.engine.events.SimpleEventListener;
 import de.makiart.engine.state.StateService;
+import de.makiart.engine.view.ViewService;
 
 public class Piaski extends Activity implements Renderer, OnTouchListener {
 
 	private GLSurfaceView mSurfaceView;
+	
 	private ServiceLocator mCore;
+	
+	private int mWidth;
+	private int mHeight;
 	
 	private boolean mIsTouched;
 	private float mTouchY;
@@ -34,6 +38,7 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 	private long mCurrentTime;
 	private long mDeltaTime;
 	private long mOldTime;
+	private ViewService mView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  	
@@ -42,7 +47,12 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
         //    	Landscape Modus und Fullscreen einstellen
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);         
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        // Bildschirm breite/höhe
+        Display display = getWindowManager().getDefaultDisplay();
+        mWidth = display.getWidth();
+        mHeight = display.getHeight();
         
         // OpenGL SurfaceView initialisieren
         mSurfaceView	=	new	GLSurfaceView(this);
@@ -56,23 +66,21 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
         setup();
     }
 	
-    public void onDrawFrame(GL10 arg0) {
+    public void onDrawFrame(GL10 gl) {
+    	mView.setGL(gl);
     	mCurrentTime = System.nanoTime(); 
     	mDeltaTime = mCurrentTime - mOldTime;
     	mOldTime = mCurrentTime; 
 
     	mCore.update(mDeltaTime);
-
 	}
 	
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 	@Override
@@ -115,14 +123,12 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 	private void setup() {
 		mCore.addService(new EventService());
 		mCore.addService(new StateService());
+		mView = new ViewService(mWidth, mHeight);
+		mCore.addService(mView);
 		
 		StateService stateService = (StateService) mCore.getService("StateService");
 		stateService.addState(new MenuState(mCore));
 		stateService.addState(new GameState(mCore));
 		stateService.changeState("MenuState");
-		
-//        SimpleEventListener sel = new SimpleEventListener();
-//        ((EventService) mCore.getService("EventService")).addListener(sel);        
-//        mCore.getService("EventService").start();
 	}
 }
