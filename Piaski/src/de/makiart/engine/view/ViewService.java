@@ -42,57 +42,8 @@ public class ViewService extends AbstractService {
 		mGl.glViewport(0, 0, mWidth, mHeight);		
 		mGl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-//		drawTriangle();
-		
 		for(AbstractView view : mViewList) {
 			view.drawAll(mGl);
 		}
 	}
-
-//	private void drawTriangle() {
-//		// fürs debuggen, ein Dreieck
-//		ByteBuffer buffer = ByteBuffer.allocateDirect(4 * 4 * 3);
-//		buffer.order(ByteOrder.nativeOrder());
-//		FloatBuffer mVertices = buffer.asFloatBuffer();
-//		
-//		mVertices.put(-0.5f);
-//		mVertices.put(-0.5f);
-//		
-//		mVertices.put(0.5f);
-//		mVertices.put(-0.5f);
-//		
-//		mVertices.put(0);
-//		mVertices.put(0.5f);
-//		
-//		mVertices.rewind();
-//		
-//		buffer = ByteBuffer.allocateDirect(3 * 4 * 4);
-//		buffer.order(ByteOrder.nativeOrder());
-//		FloatBuffer mColors = buffer.asFloatBuffer();
-//		
-//		mColors.put(1);
-//		mColors.put(0);
-//		mColors.put(0);
-//		mColors.put(1);
-//		
-//		mColors.put(0);
-//		mColors.put(1);
-//		mColors.put(0);
-//		mColors.put(1);
-//		
-//		mColors.put(0);
-//		mColors.put(0);
-//		mColors.put(1);
-//		mColors.put(1);
-//		
-//		mColors.rewind();
-//		
-//		mGl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-//		mGl.glVertexPointer(2, GL10.GL_FLOAT, 0, mVertices);
-//		
-//		mGl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-//		mGl.glColorPointer(4, GL10.GL_FLOAT, 0, mColors);
-//		
-//		mGl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 3);
-//	}
 }
