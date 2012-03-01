@@ -39,7 +39,6 @@ public class Piaski extends Activity implements OnTouchListener {
 	private long mCurrentTime;
 	private long mDeltaTime;
 	private long mOldTime;
-	private ViewService mView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  	
@@ -113,12 +112,12 @@ public class Piaski extends Activity implements OnTouchListener {
         //		Hinzufügen der Services
 		mCore.addService(new EventService());
 		mCore.addService(new StateService());
-		mView = new ViewService(mWidth, mHeight);
-		mCore.addService(mView);		
+		ViewService viewService = new ViewService(mWidth, mHeight);
+		mCore.addService(viewService);		
 
         // 		OpenGL SurfaceView initialisieren
         mSurfaceView	=	new	GLSurfaceView(this);
-        mSurfaceView.setRenderer((ViewService) mCore.getService(ViewService.NAME));
+        mSurfaceView.setRenderer(viewService);
         setContentView(mSurfaceView);     
         mSurfaceView.setOnTouchListener(this);
 		
