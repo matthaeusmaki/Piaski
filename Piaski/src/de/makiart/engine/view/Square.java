@@ -6,14 +6,14 @@ public class Square extends Shape {
 	
 	public Square() {
 		float vertices[] = {
-				-0.5f, -0.5f,  10.0f,       // V1 - bottom left				
-				-0.5f,  0.5f,  10.0f,       // V2 - top left
-				0.5f, -0.5f,  10.0f,        // V3 - bottom right
-				0.5f,  0.5f,  10.0f         // V4 - top right
+				0.0f, 0.0f,  0.0f,       // V1 - bottom left				
+				0.0f,  100.0f,  0.0f,       // V2 - top left
+				100.0f, 0.0f,  0.0f,        // V3 - bottom right
+				100.0f,  100.f,  0.0f         // V4 - top right
 		};
 		super.setVertices(vertices);
 		
-		super.setColor(0.0f, 1.0f, 0.0f, 0.5f);
+		super.setColor(0.0f, 1.0f, 0.0f, 1.0f);
 		
 		short[]	indices	=	new short[] {
 				3, 1, 0,

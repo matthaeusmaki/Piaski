@@ -40,7 +40,7 @@ public class ViewService extends AbstractService implements Renderer {
 
 	public void onDrawFrame(GL10 gl) {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		test(gl);
+//		test(gl);
 		for(AbstractView view : mViewList) {
 			view.drawAll(gl);
 		}
@@ -55,19 +55,40 @@ public class ViewService extends AbstractService implements Renderer {
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		Log.d(NAME + ".onSurfaceCreated", "Initialisierung von OpenGL");
 		
-		
-		
-		gl.glMatrixMode(GL10.GL_PROJECTION);
-		float ratio = mWidth / mHeight;
-		gl.glOrthof(mWidth/2, mWidth/2, mHeight/2, mHeight/2, 0.1f, 100.0f);
 		gl.glViewport(0, 0, mWidth, mHeight);
-//		gl.glMatrixMode(GL10.GL_MODELVIEW);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		gl.glMatrixMode(GL10.GL_PROJECTION);
+		
+		float ratio = mWidth / mHeight;
+		gl.glLoadIdentity();
+//		gl.glOrthof(
+//				-500,				//	left
+//				500 , 				//	right
+//				-500, 				//	bottom
+//				500, 				//	top
+//				1 , 				//	near
+//				-1					//	far
+//				);
+		
+		gl.glOrthof(
+		0,				//	left
+		mWidth , 				//	right
+		0, 				//	bottom
+		mHeight, 				//	top
+		1 , 				//	near
+		-1					//	far
+		);
+		
+		
+		//gl.glMatrixMode(GL10.GL_MODELVIEW);
 //		gl.glEnable(GL10.GL_DEPTH_TEST);
-//		
-//		gl.glClearColor(0, 0, 0, 1.0f);
-//		
-//		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-//	   	gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		
+		gl.glClearColor(0, 0, 0, 1.0f);
+		
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+	   	gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+	   	
+//	   	test(gl);
 	}
 	
 	private void test(GL10 gl) {

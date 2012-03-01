@@ -103,8 +103,8 @@ public class Piaski extends Activity implements OnTouchListener {
         
         // 		Bildschirm breite/höhe
         Display display = getWindowManager().getDefaultDisplay();
-        mWidth = display.getWidth();
-        mHeight = display.getHeight();
+        mWidth 	= 	display.getWidth();
+        mHeight = 	display.getHeight();
                 
         //		Initialisieren des cores
         mCore	=	new ServiceLocator();
