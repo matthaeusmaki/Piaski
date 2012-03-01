@@ -2,13 +2,17 @@ package de.makiart.engine.view;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import android.opengl.GLSurfaceView.Renderer;
 
 import de.makiart.engine.AbstractService;
 
-public class ViewService extends AbstractService {
+public class ViewService extends AbstractService implements Renderer {
 
 	public static final String NAME = "ViewService";
+	
 	private GL10 mGl;
 	private int mWidth;
 	private int mHeight;
@@ -39,11 +43,28 @@ public class ViewService extends AbstractService {
 	@Override
 	public void update() {
 		super.update();
-		mGl.glViewport(0, 0, mWidth, mHeight);		
-		mGl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
+	}
+
+	public void onDrawFrame(GL10 gl) {
+		gl.glViewport(0, 0, mWidth, mHeight);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		for(AbstractView view : mViewList) {
-			view.drawAll(mGl);
+			view.drawAll(gl);
 		}
+	}
+
+	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		mWidth = width;
+		mHeight = height;
+		gl.glViewport(0, 0, width, height);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+//		gl.glOrthof(mWidth/2, mWidth/2, mHeight/2, mHeight/2, 10, -100);
+	}
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		gl.glViewport(0, 0, mWidth, mHeight);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+//		gl.glOrthof(mWidth/2, mWidth/2, mHeight/2, mHeight/2, 10, -100);
 	}
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 public class StateService extends AbstractService{
 
 	private static final String NAME = "StateService";
+	
 	private HashMap<String, IState> mStateMap = new HashMap<String, IState>();
 	private IState mCurrentState;
 	

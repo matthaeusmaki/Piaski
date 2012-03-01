@@ -14,14 +14,16 @@ import android.util.Log;
  */
 public class EventService extends AbstractService {
 
+	public static final String NAME = "EventService";
+	
 	private ArrayList<IEventListener> mListenerList = new ArrayList<IEventListener>();
 	public enum EventType { SimpleEvent1, SimpleEvent2, ChangeStateEvent };
 	private ArrayList<IEvent> mEventList	=	new ArrayList<IEvent>();
 	
 
 	public EventService() {		
-		super("EventService");
-		Log.d("EventService", "EventService wurde aufgerufen");
+		super(NAME);
+		Log.d(NAME, NAME + " wurde aufgerufen");
 	}
 	
 	public void addListener( IEventListener listener) {

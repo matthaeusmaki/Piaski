@@ -22,11 +22,12 @@ import de.makiart.engine.events.EventService;
 import de.makiart.engine.state.StateService;
 import de.makiart.engine.view.ViewService;
 
-public class Piaski extends Activity implements Renderer, OnTouchListener {
+public class Piaski extends Activity implements OnTouchListener {
 
 	private GLSurfaceView mSurfaceView;
 	
 	private ServiceLocator mCore;
+	private boolean isRunning;
 	
 	private int mWidth;
 	private int mHeight;
@@ -43,44 +44,19 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {  	
         super.onCreate(savedInstanceState);
-        
-        //    	Landscape Modus und Fullscreen einstellen
-        requestWindowFeature(Window.FEATURE_NO_TITLE); 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
-        // Bildschirm breite/höhe
-        Display display = getWindowManager().getDefaultDisplay();
-        mWidth = display.getWidth();
-        mHeight = display.getHeight();
-        
-        // OpenGL SurfaceView initialisieren
-        mSurfaceView	=	new	GLSurfaceView(this);
-        mSurfaceView.setRenderer(this);
-        setContentView(mSurfaceView);     
-        mSurfaceView.setOnTouchListener(this);
-        
-        //	Initialisieren des cores
-        mCore	=	new ServiceLocator();
-        
         setup();
+        startGame();
     }
-	
-    public void onDrawFrame(GL10 gl) {
-    	mView.setGL(gl);
-    	mCurrentTime = System.nanoTime(); 
-    	mDeltaTime = mCurrentTime - mOldTime;
-    	mOldTime = mCurrentTime; 
+    
+    private void startGame() {
+    	// Game loop
+    	while(isRunning) {
+    		mCurrentTime = System.nanoTime(); 
+        	mDeltaTime = mCurrentTime - mOldTime;
+        	mOldTime = mCurrentTime; 
 
-    	mCore.update(mDeltaTime);
-	}
-	
-	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		
-	}
-	
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
+        	mCore.update(mDeltaTime);
+    	}
 	}
 	
 	@Override
@@ -121,11 +97,32 @@ public class Piaski extends Activity implements Renderer, OnTouchListener {
 	 * Initialisieren von Services und States. Startet mit dem "MenusState" als Initial State.
 	 */
 	private void setup() {
+        //    	Landscape Modus und Fullscreen einstellen
+        requestWindowFeature(Window.FEATURE_NO_TITLE); 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        // 		Bildschirm breite/höhe
+        Display display = getWindowManager().getDefaultDisplay();
+        mWidth = display.getWidth();
+        mHeight = display.getHeight();
+                
+        //		Initialisieren des cores
+        mCore	=	new ServiceLocator();
+		
+        //		Hinzufügen der Services
 		mCore.addService(new EventService());
 		mCore.addService(new StateService());
 		mView = new ViewService(mWidth, mHeight);
-		mCore.addService(mView);
+		mCore.addService(mView);		
+
+        // 		OpenGL SurfaceView initialisieren
+        mSurfaceView	=	new	GLSurfaceView(this);
+        mSurfaceView.setRenderer((ViewService) mCore.getService(ViewService.NAME));
+        setContentView(mSurfaceView);     
+        mSurfaceView.setOnTouchListener(this);
 		
+        // 		Spielzustände hinzufügen
 		StateService stateService = (StateService) mCore.getService("StateService");
 		stateService.addState(new MenuState(mCore));
 		stateService.addState(new GameState(mCore));
