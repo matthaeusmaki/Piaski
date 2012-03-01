@@ -10,6 +10,10 @@ import de.makiart.engine.view.ViewComponent;
 
 public class TestTriangle extends ViewComponent {
 
+	public void testDraw(GL10 gl) {
+		draw(gl);
+	}
+	
 	@Override
 	protected void draw(GL10 gl) {
 		// fürs debuggen, ein Dreieck

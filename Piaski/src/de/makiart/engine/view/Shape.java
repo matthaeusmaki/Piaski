@@ -15,6 +15,7 @@ public abstract class Shape extends ViewComponent {
 	public	 	FloatBuffer 	colorBuffer;
 	public	 	float[]			rgba = new float[4];	
 	private 	int 			numOfIndices;
+	private 	int 			numOfVertices;
 	
 	//	Translate params
 	private		float			x 	= 	0;
@@ -36,6 +37,7 @@ public abstract class Shape extends ViewComponent {
 		verticesBuffer = vbb.asFloatBuffer();
 		verticesBuffer.put(vertices);
 		verticesBuffer.position(0);
+		numOfVertices = vertices.length;
 	}
 	 
 	protected void setIndices(short[] indices) {
@@ -70,15 +72,15 @@ public abstract class Shape extends ViewComponent {
     
    @Override
    protected void draw(GL10 gl) {
-	   gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-	   gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verticesBuffer);
-    // gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
-	   gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-	   gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+//	   	gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+	   	gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verticesBuffer);
+// 		gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+//	   	gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+	   	gl.glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
    	
    
 
-	   gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
+	   	gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
    	
    	//	Disable the client state before leaving
     // 	gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
