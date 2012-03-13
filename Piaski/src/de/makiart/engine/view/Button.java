@@ -23,6 +23,10 @@ public abstract class Button implements IButton {
 
 	}
 	
+	private void setLeft	( int x) 	{ 	mLeft 	= 	x;  }	
+	private void setRight	( int x ) 	{ 	mRight 	= 	x;  }
+	private void setTop		( int y ) 	{	mTop 	=	y;	}
+	private void setBottom	( int y ) 	{	mBottom	=	y;	}
 	
 	/**
 	 * 
