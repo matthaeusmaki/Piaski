@@ -32,9 +32,6 @@ public class Square extends Shape {
 				0, 2, 3
 		};		
 		super.setIndices(indices);
-		
-		
-		
 	}
 	/*
 	public Square(float[] vertices, short[] indices, float[] colors ) {

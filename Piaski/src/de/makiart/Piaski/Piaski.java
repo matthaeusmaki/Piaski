@@ -82,11 +82,16 @@ public class Piaski extends Activity implements OnTouchListener {
 		case	MotionEvent.ACTION_UP:
 			mIsTouched	=	false;
 			Log.d("Touch-EVENT Up", "X: " + mTouchX + " | Y: " + mTouchY);
+			
+			mTouchX	=	event.getX();
+			mTouchY	=	event.getY();
+			
+			
 
 			//((EventService) mCore.getService("EventService")).dispatchEvent(new SimpleEvent());
-			ChangeStateEvent	cse	=	new ChangeStateEvent();
-			cse.setTarget("MenuState");
-			((EventService) mCore.getService("EventService")).dispatchEvent(cse);
+//			ChangeStateEvent	cse	=	new ChangeStateEvent();
+//			cse.setTarget("MenuState");
+//			((EventService) mCore.getService("EventService")).dispatchEvent(cse);
 			break;
 		}		
 		return true;
@@ -126,5 +131,6 @@ public class Piaski extends Activity implements OnTouchListener {
 		stateService.addState(new MenuState(mCore));
 		stateService.addState(new GameState(mCore));
 		stateService.changeState("MenuState");
+		
 	}
 }
