@@ -1,7 +1,11 @@
 package de.makiart.Piaski;
 
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -16,7 +20,7 @@ import de.makiart.engine.events.EventService;
 import de.makiart.engine.state.StateService;
 import de.makiart.engine.view.ViewService;
 
-public class Piaski extends Activity implements OnTouchListener {
+public class Piaski extends Activity implements OnTouchListener, Renderer {
 
 	private GLSurfaceView mSurfaceView;
 	
@@ -34,6 +38,8 @@ public class Piaski extends Activity implements OnTouchListener {
 	private long mDeltaTime;
 	private long mOldTime;
 	
+	private ViewService mViewService;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {  	
         super.onCreate(savedInstanceState);
@@ -43,14 +49,31 @@ public class Piaski extends Activity implements OnTouchListener {
     
     private void startGame() {
     	// Game loop
-    	while(isRunning) {
-    		mCurrentTime = System.nanoTime(); 
-        	mDeltaTime = mCurrentTime - mOldTime;
-        	mOldTime = mCurrentTime; 
-        	mCore.update(mDeltaTime);
-    	}
+//    	while(isRunning) {
+//    		processInput();
+//    		simulateWorld();
+//    		renderWorld();   		
+//    		
+//    	}
 	}
 	
+	private void renderWorld(GL10 gl) {
+		mViewService.render(gl);
+    	
+		
+	}
+
+	private void simulateWorld() {
+		mDeltaTime = mCurrentTime - mOldTime;
+    	mOldTime = mCurrentTime; 
+    	mCore.update(mDeltaTime);		
+	}
+
+	private void processInput() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -110,19 +133,61 @@ public class Piaski extends Activity implements OnTouchListener {
         //		Hinzufügen der Services
 		mCore.addService(new EventService());
 		mCore.addService(new StateService());
-		ViewService viewService = new ViewService(mWidth, mHeight);
-		mCore.addService(viewService);		
+		mViewService = new ViewService();
+		mCore.addService(mViewService);		
 
         // 		OpenGL SurfaceView initialisieren
         mSurfaceView	=	new	GLSurfaceView(this);
-        mSurfaceView.setRenderer(viewService);
+        mSurfaceView.setRenderer(this);
         setContentView(mSurfaceView);     
         mSurfaceView.setOnTouchListener(this);
 		
         // 		Spielzustände hinzufügen
 		StateService stateService = (StateService) mCore.getService("StateService");
 		stateService.addState(new GameState(mCore));
-		stateService.changeState(GameState.NAME);
+		stateService.changeState(GameState.NAME);		
+		
+		isRunning = true;
+	}
+
+	public void onDrawFrame(GL10 gl) {
+		if (isRunning) {
+			processInput();
+			simulateWorld();
+			renderWorld(gl); 
+		}
+		
+	}
+
+	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		mWidth = width;
+		mHeight = height;
+		gl.glViewport(0, 0, width, height);
+		
+	}
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		gl.glViewport(0, 0, mWidth, mHeight);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		gl.glMatrixMode(GL10.GL_PROJECTION);
+		
+//		float ratio = mWidth / mHeight;
+		gl.glLoadIdentity();
+		
+		gl.glOrthof(
+			0,				//	left
+			mWidth , 		//	right
+			0, 				//	bottom
+			mHeight, 		//	top
+			1 , 			//	near
+			-1				//	far
+		);
+		
+		gl.glClearColor(0, 0, 0, 1.0f);
+		
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+	   	gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+
 		
 	}
 }
