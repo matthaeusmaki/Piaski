@@ -1,11 +1,7 @@
 package de.makiart.Piaski;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -15,9 +11,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import de.makiart.Piaski.states.GameState;
-import de.makiart.Piaski.states.MenuState;
 import de.makiart.engine.ServiceLocator;
-import de.makiart.engine.events.ChangeStateEvent;
 import de.makiart.engine.events.EventService;
 import de.makiart.engine.state.StateService;
 import de.makiart.engine.view.ViewService;
@@ -53,7 +47,6 @@ public class Piaski extends Activity implements OnTouchListener {
     		mCurrentTime = System.nanoTime(); 
         	mDeltaTime = mCurrentTime - mOldTime;
         	mOldTime = mCurrentTime; 
-
         	mCore.update(mDeltaTime);
     	}
 	}
@@ -128,9 +121,8 @@ public class Piaski extends Activity implements OnTouchListener {
 		
         // 		Spielzustände hinzufügen
 		StateService stateService = (StateService) mCore.getService("StateService");
-		stateService.addState(new MenuState(mCore));
 		stateService.addState(new GameState(mCore));
-		stateService.changeState("MenuState");
+		stateService.changeState(GameState.NAME);
 		
 	}
 }
