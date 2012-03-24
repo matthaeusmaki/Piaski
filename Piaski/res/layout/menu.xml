@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/StartGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/MenuStart" />
+
+    <Button
+        android:id="@+id/Options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/MenuOption" />
+
+    <Button
+        android:id="@+id/Credits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/MenuCredits" />
+
+    <Button
+        android:id="@+id/Beenden"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/MenuQuit" />
+
+</LinearLayout>
